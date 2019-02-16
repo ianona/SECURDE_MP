@@ -1,6 +1,10 @@
 
 package View;
 
+import Controller.SQLiteJDBCDriverConnection;
+import Model.User;
+import java.util.ArrayList;
+
 public class Login extends javax.swing.JPanel {
 
     public Frame frame;
@@ -33,6 +37,11 @@ public class Login extends javax.swing.JPanel {
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -88,12 +97,32 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        frame.mainNav();
+        //Upon clicking the login button, the program will query the database to check if the inputs in the db exist
+        //TODO: add hashing to passwords
+        String HashPassword = jTextField2.getText();
+        SQLiteJDBCDriverConnection connection = new SQLiteJDBCDriverConnection();
+        ArrayList<User> users = connection.getCredentials(jTextField1.getText(), HashPassword);
+        System.out.println(jTextField1.getText());
+        System.out.println(jTextField2.getText());
+        if (users.size() == 1){
+            if (users.get(0).getRole() != 1){
+                frame.mainNav();
+            } else {    
+                System.out.println("LOGIN ERROR: Account is disabled");
+            }
+        } else {
+            System.out.println("USERS SIZE:" + users.size());
+            System.out.println("LOGIN ERROR: Invalid Credentials");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         frame.registerNav();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

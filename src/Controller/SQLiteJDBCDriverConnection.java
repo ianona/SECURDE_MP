@@ -99,4 +99,26 @@ public class SQLiteJDBCDriverConnection {
         } catch (Exception ex) {}
     }
     
+    public ArrayList<User> getCredentials(String username, String password){
+        //Please hash password before query code is executed
+        String hashPassword = password;
+        
+        ArrayList<User> users = new ArrayList<User>();
+        String sql = "SELECT id, username, password, role FROM users where username ='" + username + "' and password ='" + hashPassword + "'" ;
+      
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            
+            while (rs.next()) {
+                User user = new User(rs.getInt("id"),
+                                   rs.getString("username"),
+                                   rs.getString("password"));
+                user.setRole(rs.getInt("role"));
+                users.add(user);
+            }
+        } catch (Exception ex) {}
+        return users;
+        
+    }
 }

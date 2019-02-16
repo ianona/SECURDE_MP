@@ -29,11 +29,11 @@ public class Main {
         driver.createUserTable();
         
         // Add users
-        driver.addUser("admin", "qwerty1234");
-        driver.addUser("manager", "qwerty1234");
-        driver.addUser("staff", "qwerty1234");
-        driver.addUser("client1", "qwerty1234");
-        driver.addUser("client2", "qwerty1234");
+        driver.addUser("admin", "qwerty1234", 5);
+        driver.addUser("manager", "qwerty1234", 4);
+        driver.addUser("staff", "qwerty1234", 3);
+        driver.addUser("client1", "qwerty1234", 2);
+        driver.addUser("client2", "qwerty1234", 1);
         
         // Get users
         ArrayList<User> users = driver.getUsers();
