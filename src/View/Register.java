@@ -7,6 +7,8 @@ public class Register extends javax.swing.JPanel {
     
     public Register() {
         initComponents();
+                errorLbl.setVisible(false);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -18,6 +20,7 @@ public class Register extends javax.swing.JPanel {
         username = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         confpass = new javax.swing.JPasswordField();
+        errorLbl = new javax.swing.JLabel();
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -48,6 +51,9 @@ public class Register extends javax.swing.JPanel {
         confpass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         confpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "CONFIRM PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
+        errorLbl.setForeground(new java.awt.Color(255, 0, 0));
+        errorLbl.setText("jLabel2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -64,13 +70,19 @@ public class Register extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(360, 360, 360)
+                .addComponent(errorLbl)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(72, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorLbl)
+                .addGap(12, 12, 12)
                 .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -96,6 +108,8 @@ public class Register extends javax.swing.JPanel {
             correct = correct + 1;
         } else {
             System.out.println("NOT SAME PASSWORD");
+            errorLbl.setText("Error! Passwords are not the same");
+            errorLbl.setVisible(true);
         }
 
         //checks if the passsword field is empty
@@ -104,6 +118,8 @@ public class Register extends javax.swing.JPanel {
 
         } else {
             System.out.println("EMPTY");
+            errorLbl.setText("Error! Password cannot be empty");
+            errorLbl.setVisible(true);
         }
 
         //checks if has 1 upper case letter
@@ -111,6 +127,8 @@ public class Register extends javax.swing.JPanel {
             correct = correct + 1;
         } else {
             System.out.println("NO UPPER CASE");
+            errorLbl.setText("Error! Password requires at least 1 uppercase character");
+            errorLbl.setVisible(true);
         }
 
         //checks if has 1 lower case letter
@@ -118,6 +136,8 @@ public class Register extends javax.swing.JPanel {
             correct = correct + 1;
         } else {
             System.out.println("NO LOWER CASE");
+            errorLbl.setText("Error! Password requires at least 1 lowercase character");
+            errorLbl.setVisible(true);
         }
 
         //check if it has at least 8 characters
@@ -125,6 +145,8 @@ public class Register extends javax.swing.JPanel {
             correct = correct + 1;
         } else {
             System.out.println("NOT MORE THAN 8 CHAR");
+            errorLbl.setText("Error! Password requires at least 8 characters");
+            errorLbl.setVisible(true);
         }
 
         //check if it has number
@@ -132,6 +154,8 @@ public class Register extends javax.swing.JPanel {
             correct = correct + 1;
         } else {
             System.out.println("NO NUMBER");
+            errorLbl.setText("Error! Password requires at least 1 number");
+            errorLbl.setVisible(true);
         }
 
         //check if it has special characters
@@ -139,10 +163,13 @@ public class Register extends javax.swing.JPanel {
             correct = correct + 1;
         } else {
             System.out.println("NOT SPECIAL");
+            errorLbl.setText("Error! Password requires at least 1 special character");
+            errorLbl.setVisible(true);
         }
 
         //if all of the condition checks, it stores the password
         if (correct == 7) {
+            errorLbl.setVisible(false);
             frame.registerAction(username.getText(), password.getText(), confpass.getText());
             frame.loginNav();
             username.setText("");
@@ -156,6 +183,7 @@ public class Register extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField confpass;
+    private javax.swing.JLabel errorLbl;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField password;
