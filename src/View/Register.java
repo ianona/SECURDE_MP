@@ -14,10 +14,10 @@ public class Register extends javax.swing.JPanel {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        password = new javax.swing.JTextField();
+        password = new javax.swing.JPasswordField();
         username = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        confpass = new javax.swing.JTextField();
+        confpass = new javax.swing.JPasswordField();
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N

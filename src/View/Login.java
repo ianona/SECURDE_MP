@@ -19,7 +19,7 @@ public class Login extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -100,8 +100,6 @@ public class Login extends javax.swing.JPanel {
         String HashPassword = jTextField2.getText();
         SQLiteJDBCDriverConnection connection = new SQLiteJDBCDriverConnection();
         ArrayList<User> users = connection.getCredentials(jTextField1.getText(), HashPassword);
-        System.out.println(jTextField1.getText());
-        System.out.println(jTextField2.getText());
         if (users.size() == 1){
             if (users.get(0).getRole() != 1){
                 frame.mainNav();
