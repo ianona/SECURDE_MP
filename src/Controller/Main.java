@@ -5,11 +5,44 @@ import Model.User;
 import View.Frame;
 import java.util.ArrayList;
 
-
+import java.math.BigInteger; 
+import java.security.MessageDigest; 
+import java.security.NoSuchAlgorithmException; 
 
 public class Main {
     
     public SQLiteJDBCDriverConnection driver;
+    
+    //hashing the password before sotring into the database
+    public String hashing(String password)
+    {
+        try { 
+            // getInstance() method is called with algorithm SHA-512 
+            MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+  
+            // digest() method is called 
+            // to calculate message digest of the input string 
+            // returned as array of byte 
+            byte[] messageDigest = md.digest(password.getBytes()); 
+  
+            // Convert byte array into signum representation 
+            BigInteger no = new BigInteger(1, messageDigest); 
+  
+            // Convert message digest into hex value 
+            String hashtext = no.toString(16); 
+  
+            // Add preceding 0s to make it 32 bit 
+            while (hashtext.length() < 32) { 
+                hashtext = "0" + hashtext; 
+            }
+            return hashtext;
+        } 
+  
+        // For specifying wrong message digest algorithms 
+        catch (NoSuchAlgorithmException e) { 
+            throw new RuntimeException(e); 
+        } 
+    }
     
     public static void main(String[] args) {
         new Main().init();
@@ -34,7 +67,7 @@ public class Main {
         driver.addUser("staff", "qwerty1234", 3);
         driver.addUser("client1", "qwerty1234", 2);
         driver.addUser("client2", "qwerty1234", 1);
-        
+
         // Get users
         ArrayList<User> users = driver.getUsers();
         for(int nCtr = 0; nCtr < users.size(); nCtr++){
