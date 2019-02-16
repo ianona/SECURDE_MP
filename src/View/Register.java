@@ -145,6 +145,9 @@ public class Register extends javax.swing.JPanel {
         if (correct == 7) {
             frame.registerAction(username.getText(), password.getText(), confpass.getText());
             frame.loginNav();
+            username.setText("");
+            password.setText("");
+            confpass.setText("");
         } else {
             System.out.println(correct);
         }

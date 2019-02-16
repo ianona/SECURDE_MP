@@ -3,6 +3,9 @@ package View;
 
 import Controller.SQLiteJDBCDriverConnection;
 import Model.User;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class Login extends javax.swing.JPanel {
@@ -97,7 +100,36 @@ public class Login extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Upon clicking the login button, the program will query the database to check if the inputs in the db exist
         //TODO: add hashing to passwords
-        String HashPassword = jTextField2.getText();
+        String password = jTextField2.getText();
+        
+        try { 
+            // getInstance() method is called with algorithm SHA-512 
+            MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+  
+            // digest() method is called 
+            // to calculate message digest of the input string 
+            // returned as array of byte 
+            byte[] messageDigest = md.digest(password.getBytes()); 
+  
+            // Convert byte array into signum representation 
+            BigInteger no = new BigInteger(1, messageDigest); 
+  
+            // Convert message digest into hex value 
+            String hashtext = no.toString(16); 
+  
+            // Add preceding 0s to make it 32 bit 
+            while (hashtext.length() < 32) { 
+                hashtext = "0" + hashtext; 
+            }
+            password = hashtext;
+        } 
+  
+        // For specifying wrong message digest algorithms 
+        catch (NoSuchAlgorithmException e) { 
+            throw new RuntimeException(e); 
+        } 
+        
+        String HashPassword = password;
         String Username = jTextField1.getText().toLowerCase();
         SQLiteJDBCDriverConnection connection = new SQLiteJDBCDriverConnection();
         ArrayList<User> users = connection.getCredentials(Username, HashPassword);
@@ -111,6 +143,9 @@ public class Login extends javax.swing.JPanel {
             System.out.println("USERS SIZE:" + users.size());
             System.out.println("LOGIN ERROR: Invalid Credentials");
         }
+        
+        jTextField1.setText("");
+        jTextField2.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
