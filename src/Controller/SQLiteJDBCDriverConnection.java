@@ -68,6 +68,7 @@ public class SQLiteJDBCDriverConnection {
     }
     
     public ArrayList<User> checkUsers(String temp){
+        temp = temp.toLowerCase();
         String sql = "SELECT id, username, password, role FROM users WHERE username = '" +temp +"'";
         ArrayList<User> users = new ArrayList<User>();
         
@@ -87,7 +88,7 @@ public class SQLiteJDBCDriverConnection {
     
     public void addUser(String username, String password) {
         String sql = "INSERT INTO users(username,password) VALUES('" + username + "','" + password + "')";
-        
+        username = username.toLowerCase();
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
@@ -102,7 +103,7 @@ public class SQLiteJDBCDriverConnection {
     }
     
         public void addUser(String username, String password, int role) {
-        
+        username = username.toLowerCase();
         //link to how to do SHA-512 encryption (https://www.geeksforgeeks.org/sha-512-hash-in-java/)
         
         try { 
@@ -153,7 +154,7 @@ public class SQLiteJDBCDriverConnection {
     public ArrayList<User> getCredentials(String username, String password){
         //Please hash password before query code is executed
         String hashPassword = password;
-        
+        username = username.toLowerCase();
         ArrayList<User> users = new ArrayList<User>();
         String sql = "SELECT id, username, password, role FROM users where username ='" + username + "' and password ='" + hashPassword + "'" ;
       
