@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class Login extends javax.swing.JPanel {
 
     public Frame frame;
+    private int attempts = 0;
     
     public Login() {
         initComponents();
-                errorLbl.setVisible(false);
-
+        errorLbl.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -146,8 +146,13 @@ public class Login extends javax.swing.JPanel {
         SQLiteJDBCDriverConnection connection = new SQLiteJDBCDriverConnection();
         ArrayList<User> users = connection.getCredentials(Username, HashPassword);
         
-        if (users.size() == 1){
+        if (attempts >= 5) {
+            errorLbl.setText("Too many failed attempts, you can no longer access the system");
+            errorLbl.setVisible(true);
+        }
+        else if (users.size() == 1){
             if (users.get(0).getRole() != 1){
+                attempts = 0;
                 errorLbl.setVisible(false);
                 jTextField1.setText("");
         jTextField2.setText("");
@@ -160,14 +165,14 @@ public class Login extends javax.swing.JPanel {
         } else {
             System.out.println("USERS SIZE:" + users.size());
             System.out.println("LOGIN ERROR: Invalid Credentials");
+            attempts++;
             errorLbl.setText("Error! Invalid credentials");
                 errorLbl.setVisible(true);
         }
-        
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        attempts = 0;
         errorLbl.setVisible(false);
         frame.registerNav();
     }//GEN-LAST:event_jButton1ActionPerformed
