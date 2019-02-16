@@ -1,2 +1,6 @@
 build/
 *.db
+build/built-jar.properties
+database.db
+dist/README.TXT
+dist/SECURDE.jar
