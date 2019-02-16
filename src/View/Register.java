@@ -83,8 +83,71 @@ public class Register extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        frame.registerAction(username.getText(), password.getText(), confpass.getText());
-        frame.loginNav();
+         //checks the validation of the password and confirmation
+        int correct = 0;
+        boolean hasUppercase = !password.getText().equals(password.getText().toLowerCase());
+        boolean hasLowercase = !password.getText().equals(password.getText().toUpperCase());
+        boolean isAtLeast8 = password.getText().length() >= 8;
+        boolean hasSpecial = !password.getText().matches("[A-Za-z0-9 ]*");
+        boolean hasNumber = password.getText().matches(".*\\d+.*");
+
+        //checks if the password is same as the confirmation password
+        if (password.getText().equals(confpass.getText())) {
+            correct = correct + 1;
+        } else {
+            System.out.println("NOT SAME PASSWORD");
+        }
+
+        //checks if the passsword field is empty
+        if (!password.getText().equals("")) {
+            correct = correct + 1;
+
+        } else {
+            System.out.println("EMPTY");
+        }
+
+        //checks if has 1 upper case letter
+        if (hasUppercase) {
+            correct = correct + 1;
+        } else {
+            System.out.println("NO UPPER CASE");
+        }
+
+        //checks if has 1 lower case letter
+        if (hasLowercase) {
+            correct = correct + 1;
+        } else {
+            System.out.println("NO LOWER CASE");
+        }
+
+        //check if it has at least 8 characters
+        if (isAtLeast8) {
+            correct = correct + 1;
+        } else {
+            System.out.println("NOT MORE THAN 8 CHAR");
+        }
+
+        //check if it has number
+        if (hasNumber) {
+            correct = correct + 1;
+        } else {
+            System.out.println("NO NUMBER");
+        }
+
+        //check if it has special characters
+        if (hasSpecial) {
+            correct = correct + 1;
+        } else {
+            System.out.println("NOT SPECIAL");
+        }
+
+        //if all of the condition checks, it stores the password
+        if (correct == 7) {
+            frame.registerAction(username.getText(), password.getText(), confpass.getText());
+            frame.loginNav();
+        } else {
+            System.out.println(correct);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
