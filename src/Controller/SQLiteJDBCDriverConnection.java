@@ -67,6 +67,24 @@ public class SQLiteJDBCDriverConnection {
         return users;
     }
     
+    public ArrayList<User> checkUsers(String temp){
+        String sql = "SELECT id, username, password, role FROM users WHERE username = '" +temp +"'";
+        ArrayList<User> users = new ArrayList<User>();
+        
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            
+            while (rs.next()) {
+                users.add(new User(rs.getInt("id"),
+                                   rs.getString("username"),
+                                   rs.getString("password")));
+            
+            }
+        } catch (Exception ex) {}
+        return users;
+    }
+    
     public void addUser(String username, String password) {
         String sql = "INSERT INTO users(username,password) VALUES('" + username + "','" + password + "')";
         

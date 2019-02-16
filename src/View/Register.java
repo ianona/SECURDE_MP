@@ -1,13 +1,14 @@
-
 package View;
+
+import Controller.SQLiteJDBCDriverConnection;
 
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;
-    
+
     public Register() {
         initComponents();
-                errorLbl.setVisible(false);
+        errorLbl.setVisible(false);
 
     }
 
@@ -95,7 +96,8 @@ public class Register extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         //checks the validation of the password and confirmation
+        //checks the validation of the password and confirmation
+        SQLiteJDBCDriverConnection database = new SQLiteJDBCDriverConnection();
         int correct = 0;
         boolean hasUppercase = !password.getText().equals(password.getText().toLowerCase());
         boolean hasLowercase = !password.getText().equals(password.getText().toUpperCase());
@@ -103,80 +105,84 @@ public class Register extends javax.swing.JPanel {
         boolean hasSpecial = !password.getText().matches("[A-Za-z0-9 ]*");
         boolean hasNumber = password.getText().matches(".*\\d+.*");
 
-        //checks if the password is same as the confirmation password
-        if (password.getText().equals(confpass.getText())) {
-            correct = correct + 1;
-        } else {
-            System.out.println("NOT SAME PASSWORD");
-            errorLbl.setText("Error! Passwords are not the same");
-            errorLbl.setVisible(true);
-        }
+        if (database.checkUsers(username.getText()).size() == 0) {
+            //checks if the password is same as the confirmation password
+            if (password.getText().equals(confpass.getText())) {
+                correct = correct + 1;
+            } else {
+                System.out.println("NOT SAME PASSWORD");
+                errorLbl.setText("Error! Passwords are not the same");
+                errorLbl.setVisible(true);
+            }
 
-        //checks if the passsword field is empty
-        if (!password.getText().equals("")) {
-            correct = correct + 1;
+            //checks if the passsword field is empty
+            if (!password.getText().equals("")) {
+                correct = correct + 1;
 
-        } else {
-            System.out.println("EMPTY");
-            errorLbl.setText("Error! Password cannot be empty");
-            errorLbl.setVisible(true);
-        }
+            } else {
+                System.out.println("EMPTY");
+                errorLbl.setText("Error! Password cannot be empty");
+                errorLbl.setVisible(true);
+            }
 
-        //checks if has 1 upper case letter
-        if (hasUppercase) {
-            correct = correct + 1;
-        } else {
-            System.out.println("NO UPPER CASE");
-            errorLbl.setText("Error! Password requires at least 1 uppercase character");
-            errorLbl.setVisible(true);
-        }
+            //checks if has 1 upper case letter
+            if (hasUppercase) {
+                correct = correct + 1;
+            } else {
+                System.out.println("NO UPPER CASE");
+                errorLbl.setText("Error! Password requires at least 1 uppercase character");
+                errorLbl.setVisible(true);
+            }
 
-        //checks if has 1 lower case letter
-        if (hasLowercase) {
-            correct = correct + 1;
-        } else {
-            System.out.println("NO LOWER CASE");
-            errorLbl.setText("Error! Password requires at least 1 lowercase character");
-            errorLbl.setVisible(true);
-        }
+            //checks if has 1 lower case letter
+            if (hasLowercase) {
+                correct = correct + 1;
+            } else {
+                System.out.println("NO LOWER CASE");
+                errorLbl.setText("Error! Password requires at least 1 lowercase character");
+                errorLbl.setVisible(true);
+            }
 
-        //check if it has at least 8 characters
-        if (isAtLeast8) {
-            correct = correct + 1;
-        } else {
-            System.out.println("NOT MORE THAN 8 CHAR");
-            errorLbl.setText("Error! Password requires at least 8 characters");
-            errorLbl.setVisible(true);
-        }
+            //check if it has at least 8 characters
+            if (isAtLeast8) {
+                correct = correct + 1;
+            } else {
+                System.out.println("NOT MORE THAN 8 CHAR");
+                errorLbl.setText("Error! Password requires at least 8 characters");
+                errorLbl.setVisible(true);
+            }
 
-        //check if it has number
-        if (hasNumber) {
-            correct = correct + 1;
-        } else {
-            System.out.println("NO NUMBER");
-            errorLbl.setText("Error! Password requires at least 1 number");
-            errorLbl.setVisible(true);
-        }
+            //check if it has number
+            if (hasNumber) {
+                correct = correct + 1;
+            } else {
+                System.out.println("NO NUMBER");
+                errorLbl.setText("Error! Password requires at least 1 number");
+                errorLbl.setVisible(true);
+            }
 
-        //check if it has special characters
-        if (hasSpecial) {
-            correct = correct + 1;
-        } else {
-            System.out.println("NOT SPECIAL");
-            errorLbl.setText("Error! Password requires at least 1 special character");
-            errorLbl.setVisible(true);
-        }
+            //check if it has special characters
+            if (hasSpecial) {
+                correct = correct + 1;
+            } else {
+                System.out.println("NOT SPECIAL");
+                errorLbl.setText("Error! Password requires at least 1 special character");
+                errorLbl.setVisible(true);
+            }
 
-        //if all of the condition checks, it stores the password
-        if (correct == 7) {
-            errorLbl.setVisible(false);
-            frame.registerAction(username.getText(), password.getText(), confpass.getText());
-            frame.loginNav();
-            username.setText("");
-            password.setText("");
-            confpass.setText("");
+            //if all of the condition checks, it stores the password
+            if (correct == 7) {
+                errorLbl.setVisible(false);
+                frame.registerAction(username.getText(), password.getText(), confpass.getText());
+                frame.loginNav();
+                username.setText("");
+                password.setText("");
+                confpass.setText("");
+            } else {
+                System.out.println(correct);
+            }
         } else {
-            System.out.println(correct);
+            System.out.println("CHOOSE UNIQUE USERNAME");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
