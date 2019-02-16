@@ -156,7 +156,7 @@ public class Login extends javax.swing.JPanel {
                 errorLbl.setVisible(false);
                 jTextField1.setText("");
         jTextField2.setText("");
-                frame.mainNav();
+                frame.mainNav(users.get(0));
             } else {    
                 System.out.println("LOGIN ERROR: Account is disabled");
                 errorLbl.setText("Error! Account is disabled");
