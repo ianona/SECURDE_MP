@@ -65,6 +65,7 @@ public class SQLiteJDBCDriverConnection {
     }
     
     public void addUser(String username, String password) {
+        username = username.toLowerCase();
         String sql = "INSERT INTO users(username,password) VALUES('" + username + "','" + password + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -81,6 +82,7 @@ public class SQLiteJDBCDriverConnection {
     }
     
         public void addUser(String username, String password, int role) {
+        username = username.toLowerCase();
         String sql = "INSERT INTO users(username,password,role) VALUES('" + username + "','" + password + "','" + role + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);

@@ -98,8 +98,9 @@ public class Login extends javax.swing.JPanel {
         //Upon clicking the login button, the program will query the database to check if the inputs in the db exist
         //TODO: add hashing to passwords
         String HashPassword = jTextField2.getText();
+        String Username = jTextField1.getText().toLowerCase();
         SQLiteJDBCDriverConnection connection = new SQLiteJDBCDriverConnection();
-        ArrayList<User> users = connection.getCredentials(jTextField1.getText(), HashPassword);
+        ArrayList<User> users = connection.getCredentials(Username, HashPassword);
         if (users.size() == 1){
             if (users.get(0).getRole() != 1){
                 frame.mainNav();
