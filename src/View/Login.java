@@ -14,6 +14,8 @@ public class Login extends javax.swing.JPanel {
     
     public Login() {
         initComponents();
+                errorLbl.setVisible(false);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -25,6 +27,7 @@ public class Login extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        errorLbl = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -64,6 +67,9 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
+        errorLbl.setForeground(new java.awt.Color(255, 0, 0));
+        errorLbl.setText("jLabel2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,13 +85,19 @@ public class Login extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(200, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(360, 360, 360)
+                .addComponent(errorLbl)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(88, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(16, 16, 16)
+                .addComponent(errorLbl)
+                .addGap(18, 18, 18)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,22 +145,30 @@ public class Login extends javax.swing.JPanel {
         String Username = jTextField1.getText().toLowerCase();
         SQLiteJDBCDriverConnection connection = new SQLiteJDBCDriverConnection();
         ArrayList<User> users = connection.getCredentials(Username, HashPassword);
+        
         if (users.size() == 1){
             if (users.get(0).getRole() != 1){
+                errorLbl.setVisible(false);
+                jTextField1.setText("");
+        jTextField2.setText("");
                 frame.mainNav();
             } else {    
                 System.out.println("LOGIN ERROR: Account is disabled");
+                errorLbl.setText("Error! Account is disabled");
+                errorLbl.setVisible(true);
             }
         } else {
             System.out.println("USERS SIZE:" + users.size());
             System.out.println("LOGIN ERROR: Invalid Credentials");
+            errorLbl.setText("Error! Invalid credentials");
+                errorLbl.setVisible(true);
         }
         
-        jTextField1.setText("");
-        jTextField2.setText("");
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        errorLbl.setVisible(false);
         frame.registerNav();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -158,6 +178,7 @@ public class Login extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errorLbl;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
