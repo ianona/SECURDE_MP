@@ -2,6 +2,7 @@ package Controller;
 
 
 import Model.User;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -11,10 +12,34 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class SQLiteJDBCDriverConnection {
     
     String driverURL = "jdbc:sqlite:" + "database.db";
+    private Logger logger;
+    
+    public SQLiteJDBCDriverConnection(){
+        logger = Logger.getLogger("SecurdeLog");  
+        FileHandler fh;  
+
+        try {  
+
+            // This block configure the logger with handler and formatter  
+            fh = new FileHandler("./logs/SecurdeLog.log", true);  
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();  
+            fh.setFormatter(formatter);  
+
+        } catch (SecurityException e) {  
+            e.printStackTrace();
+
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+    }
     
     public void createNewDatabase() {
         try (Connection conn = DriverManager.getConnection(driverURL)) {
@@ -138,8 +163,10 @@ public class SQLiteJDBCDriverConnection {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
-            
-        } catch (Exception ex) {}
+            logger.info("Added User: " + username + "into Database");  
+        } catch (Exception ex) {
+            logger.info(ex.getMessage());  
+        }
     }
     public void removeUser(String username) {
         String sql = "DELETE FROM users WHERE username='" + username + "');";

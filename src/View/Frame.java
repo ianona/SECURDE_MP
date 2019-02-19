@@ -5,6 +5,10 @@ import Model.User;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.swing.WindowConstants;
 
 public class Frame extends javax.swing.JFrame {
@@ -197,6 +201,8 @@ public class Frame extends javax.swing.JFrame {
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         frameView.show(Container, "loginPnl");
+        logger.info("Logged Out of Program as user: " + curUser.getUsername());
+        curUser = null;
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     public Main controller;
@@ -210,6 +216,9 @@ public class Frame extends javax.swing.JFrame {
     
     private CardLayout contentView = new CardLayout();
     private CardLayout frameView = new CardLayout();
+    
+    private Logger logger;
+    private User curUser;
     
     public void init(Main controller){
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -233,10 +242,24 @@ public class Frame extends javax.swing.JFrame {
         Content.add(clientHomePnl, "clientHomePnl");
         
         this.setVisible(true);
+        
+        logger = Logger.getLogger("SecurdeLog");  
+        FileHandler fh;
+        try {  
+            fh = new FileHandler("./logs/SecurdeLog.log", true);  
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();  
+            fh.setFormatter(formatter);  
+        } catch (SecurityException e) {  
+            e.printStackTrace();
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
     }
     
     public void mainNav(User user){
         setAllButtonsVisibility(false);
+        curUser = user;
         if (user.getRole() == 5){
             adminBtn.setVisible(true);
             contentView.show(Content, "adminHomePnl");

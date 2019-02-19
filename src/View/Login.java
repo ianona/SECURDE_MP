@@ -3,19 +3,36 @@ package View;
 
 import Controller.SQLiteJDBCDriverConnection;
 import Model.User;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Login extends javax.swing.JPanel {
 
     public Frame frame;
     private int attempts = 0;
+    private Logger logger;
     
     public Login() {
         initComponents();
         errorLbl.setVisible(false);
+        logger = Logger.getLogger("SecurdeLog");  
+        FileHandler fh;
+        try {  
+            fh = new FileHandler("./logs/SecurdeLog.log", true);  
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();  
+            fh.setFormatter(formatter);  
+        } catch (SecurityException e) {  
+            e.printStackTrace();
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
     }
 
     @SuppressWarnings("unchecked")
@@ -148,6 +165,7 @@ public class Login extends javax.swing.JPanel {
         
         if (attempts >= 5) {
             errorLbl.setText("Too many failed attempts, you can no longer access the system");
+            logger.info("Too many failed attempts, you can no longer access the system");
             errorLbl.setVisible(true);
         }
         else if (users.size() == 1){
@@ -157,14 +175,17 @@ public class Login extends javax.swing.JPanel {
                 jTextField1.setText("");
         jTextField2.setText("");
                 frame.mainNav(users.get(0));
+                logger.info("Logged in as " + users.get(0).getUsername());
             } else {    
                 System.out.println("LOGIN ERROR: Account is disabled");
+                logger.info("LOGIN ERROR: Account is disabled");
                 errorLbl.setText("Error! Account is disabled");
                 errorLbl.setVisible(true);
             }
         } else {
             System.out.println("USERS SIZE:" + users.size());
             System.out.println("LOGIN ERROR: Invalid Credentials");
+            logger.info("LOGIN ERROR: Invalid Credentials");
             attempts++;
             errorLbl.setText("Error! Invalid credentials");
                 errorLbl.setVisible(true);
