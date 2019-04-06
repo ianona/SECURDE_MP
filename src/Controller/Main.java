@@ -31,7 +31,7 @@ public class Main {
         driver.addUser("manager", "qwerty1234", 4);
         driver.addUser("staff", "qwerty1234", 3);
         driver.addUser("client1", "qwerty1234");
-        driver.addUser("client2", "qwerty1234");
+        driver.addUser("client2", "qwerty1234", 1);
 
         // Get users
         ArrayList<User> users = driver.getUsers();
